@@ -3,6 +3,7 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -14,6 +15,10 @@ import MenuItem from "@mui/material/MenuItem";
 import { StyledNav } from "./StyledNav";
 import Image from "next/image";
 import Link from "../Link";
+import { Badge } from "@mui/material";
+import { useSelector } from "react-redux";
+import { selectAllCartItems } from "@/redux/reducers";
+import { RootState } from "@/redux/store";
 
 export const pages = [
   { name: "Products", route: "/#products" },
@@ -24,7 +29,12 @@ const settings = ["Profile", "Account", "Cart", "Logout"];
 export function Nav() {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
-  const [drawerState, setDrawerState] = useState<boolean>(false)
+  const [drawerState, setDrawerState] = useState<boolean>(false);
+  const cartItemsCount = useSelector((state: RootState) =>
+    selectAllCartItems(state).reduce((acc, curr) => {
+      return acc + curr.qty;
+    }, 0)
+  );
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
@@ -41,17 +51,17 @@ export function Nav() {
     setAnchorElUser(null);
   };
   const toggleDrawer =
-  (open: boolean) => (event: KeyboardEvent | MouseEvent) => {
-    if (
-      event.type === "keydown" &&
-      ((event as KeyboardEvent).key === "Tab" ||
-        (event as KeyboardEvent).key === "Shift")
-    ) {
-      return;
-    }
+    (open: boolean) => (event: KeyboardEvent | MouseEvent) => {
+      if (
+        event.type === "keydown" &&
+        ((event as KeyboardEvent).key === "Tab" ||
+          (event as KeyboardEvent).key === "Shift")
+      ) {
+        return;
+      }
 
-    setDrawerState(true);
-  };
+      setDrawerState(true);
+    };
   return (
     <StyledNav>
       <AppBar position="static">
@@ -157,7 +167,18 @@ export function Nav() {
               ))}
             </Box>
 
-            <Box sx={{ flexGrow: 0 }}>
+            <Box sx={{ flexGrow: 0, display: "flex", alignItems: "center" }}>
+              <Link href="/cart">
+                <Badge
+                  sx={{
+                    margin: 2,
+                  }}
+                  badgeContent={cartItemsCount}
+                  color="error"
+                >
+                  <ShoppingCartIcon />
+                </Badge>
+              </Link>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                   <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />

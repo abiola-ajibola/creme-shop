@@ -1,9 +1,9 @@
 export {
   shoppingCartSlice,
   addToCart,
-  decreaseQty,
-  increaseQty,
   removeFromCart,
   setQty,
   shoppingCartReducer,
+  selectAllCartItems,
+  selectAddedProducts,
 } from "./shoppingCartSlice";
