@@ -12,6 +12,7 @@ export function QuantityPicker({
 }: {
   decrementDisabled?: boolean;
   onDecrement?: () => void;
+  // eslint-disable-next-line no-unused-vars
   onInputChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   inputValue?: string | number;
   inputDisabled?: boolean;

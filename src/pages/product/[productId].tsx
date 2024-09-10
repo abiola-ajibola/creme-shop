@@ -1,5 +1,5 @@
-import { MouseEventHandler, useState } from "react";
-import { Typography, Box, Rating, Button, Input } from "@mui/material";
+import { ChangeEvent, MouseEventHandler, useState } from "react";
+import { Typography, Box, Rating, Button } from "@mui/material";
 import Image from "next/image";
 import Head from "next/head";
 import { useDispatch, useSelector } from "react-redux";
@@ -152,7 +152,7 @@ export default function Product({
                 }
                 onIncrement={() => handleQtyChange(1)}
                 inputValue={localQty}
-                onInputChange={(e) => setLocalQty(Number(e.target.value) || 0)}
+                onInputChange={(e: ChangeEvent<HTMLInputElement>) => setLocalQty(Number(e.target.value) || 0)}
               />
             </Box>
             <Box

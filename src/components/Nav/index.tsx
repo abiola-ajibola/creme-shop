@@ -29,7 +29,8 @@ const settings = ["Profile", "Account", "Cart", "Logout"];
 export function Nav() {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
-  const [drawerState, setDrawerState] = useState<boolean>(false);
+  // eslint-disable-next-line no-unused-vars
+  const [_drawerState, setDrawerState] = useState<boolean>(false);
   const cartItemsCount = useSelector((state: RootState) =>
     selectAllCartItems(state).reduce((acc, curr) => {
       return acc + curr.qty;
@@ -50,18 +51,18 @@ export function Nav() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-  const toggleDrawer =
-    (open: boolean) => (event: KeyboardEvent | MouseEvent) => {
-      if (
-        event.type === "keydown" &&
-        ((event as KeyboardEvent).key === "Tab" ||
-          (event as KeyboardEvent).key === "Shift")
-      ) {
-        return;
-      }
+  // const toggleDrawer =
+  //   (open: boolean) => (event: KeyboardEvent | MouseEvent) => {
+  //     if (
+  //       event.type === "keydown" &&
+  //       ((event as KeyboardEvent).key === "Tab" ||
+  //         (event as KeyboardEvent).key === "Shift")
+  //     ) {
+  //       return;
+  //     }
 
-      setDrawerState(true);
-    };
+  //     setDrawerState(true);
+  //   };
   return (
     <StyledNav>
       <AppBar position="static">

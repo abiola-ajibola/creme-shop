@@ -1,11 +1,11 @@
 import Head from "next/head";
-import { ProductType } from "@/types/product";
+// import { ProductType } from "@/types/product";
 import Link from "next/link";
-import { Box, Button, Paper, TextField, Typography } from "@mui/material";
+import { Box, Button, TextField, Typography } from "@mui/material";
 import { StyledPaper } from "./LoginStyles";
 import { LoginStyles } from "@/styles/LoginStyle";
 
-export default function Home({ products }: { products: ProductType[] }) {
+export default function Home(/* { products }: { products: ProductType[] } */) {
   return (
     <>
       <Head>

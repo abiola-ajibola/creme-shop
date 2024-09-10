@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import { OrderSummary } from "@/components/OrderSummary";
 import { ShoppingCartItem } from "@/components/ShoppingCartItem";
 
-export default function Cart(props: any) {
+export default function Cart() {
   const allCartItems = useSelector((state: RootState) =>
     selectAllCartItems(state)
   );

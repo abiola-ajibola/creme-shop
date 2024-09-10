@@ -21,6 +21,7 @@ const additionalThemes = {
   },
 };
 declare module "@mui/material/styles" {
+  /* eslint-disable no-unused-vars */
   interface Theme {
     _: typeof additionalThemes;
   }

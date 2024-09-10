@@ -14,7 +14,7 @@ const FlexibleBox = styled(Box)(() => ({
   height: "100%",
 }));
 
-const StyledImage = styled(Image)((props) => ({}));
+const StyledImage = styled(Image)(() => ({}));
 
 export function ShoppingCartItem({ item }: { item: OrderItem }) {
   const dispatch = useDispatch();
