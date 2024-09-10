@@ -1,6 +1,6 @@
 import { AxiosResponse } from "axios";
-import { axios } from "./config";
 import { MuiTelInputCountry } from "mui-tel-input";
+import { axios } from "./config";
 
 export type Timezones = {
   zoneName: string;

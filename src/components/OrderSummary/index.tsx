@@ -1,10 +1,10 @@
+import { Box, Button, Typography } from "@mui/material";
+import { useSelector } from "react-redux";
+import Link from "../Link";
 import { selectAllCartItems } from "@/redux/reducers";
 import { selectShipping } from "@/redux/reducers/shoppingCartSlice";
 import { RootState } from "@/redux/store";
 import { SummaryItem } from "@/types/shoppingCart";
-import { Box, Button, Typography } from "@mui/material";
-import { useSelector } from "react-redux";
-import Link from "../Link";
 
 function SummaryItem({ name, value }: SummaryItem) {
   return (

@@ -1,8 +1,8 @@
-import { removeFromCart, setQty } from "@/redux/reducers";
 import { Box, Button, Grid, Paper, Typography, styled } from "@mui/material";
 import Image from "next/image";
 import { Delete } from "@mui/icons-material";
 import { useDispatch } from "react-redux";
+import { removeFromCart, setQty } from "@/redux/reducers";
 import { OrderItem } from "@/types/shoppingCart";
 import { QuantityPicker } from "@/components/QuantityPicker";
 

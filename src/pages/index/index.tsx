@@ -1,8 +1,8 @@
 import Head from "next/head";
-import ProductCard from "@/components/ProductCard";
-import { ProductType } from "@/types/product";
 import ProductsListStyles from "./ProductsListStyles";
 import { MainStyles } from "./MainStyles";
+import ProductCard from "@/components/ProductCard";
+import { ProductType } from "@/types/product";
 
 /* 
   Cart might contain; product, product-id, shipping address, user (user who made the order), created-on, isDelivered

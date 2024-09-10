@@ -25,8 +25,8 @@ export const SignupWrapper = styled("main")(({ theme }) => {
 `;
 });
 declare module "@mui/material" {
-  interface PaperOwnProps {
-    component?: string
+  export interface PaperOwnProps {
+    component?: string;
   }
 }
 export const StyledPaper = styled(

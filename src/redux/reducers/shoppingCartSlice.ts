@@ -1,6 +1,6 @@
-import { ShoppingCart } from "@/types/shoppingCart";
 import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
+import { ShoppingCart } from "@/types/shoppingCart";
 // import type { PayloadAction } from "@reduxjs/toolkit";
 
 const initialState: ShoppingCart = {

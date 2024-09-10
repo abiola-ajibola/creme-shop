@@ -1,6 +1,12 @@
 {
-  "extends": "next/core-web-vitals",
+  "extends": ["next/core-web-vitals", "plugin:import/recommended"],
   "rules": {
-    "no-unused-vars": "error"
+    "no-unused-vars": "error",
+    "import/no-unresolved": ["error", { "commonjs": true, "amd": true }],
+    "import/named": "off",
+    "import/namespace": "off",
+    "import/default": "off",
+    "import/export": "error",
+    "import/order": "warn"
   }
 }

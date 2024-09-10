@@ -1,8 +1,8 @@
-import { selectAllCartItems } from "@/redux/reducers";
-import { RootState } from "@/redux/store";
 import { Box, Typography } from "@mui/material";
 import Head from "next/head";
 import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
+import { selectAllCartItems } from "@/redux/reducers";
 import { OrderSummary } from "@/components/OrderSummary";
 import { ShoppingCartItem } from "@/components/ShoppingCartItem";
 

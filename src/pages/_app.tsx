@@ -1,9 +1,9 @@
 // import "@/styles/globals.css";
 import type { AppProps } from "next/app";
-import store from "@/redux/store";
 import { Provider } from "react-redux";
 import { ThemeProvider, createTheme, styled } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
+import store from "@/redux/store";
 import { Footer } from "@/components/Footer";
 import { Nav } from "@/components/Nav";
 import "@fontsource/roboto/300.css";

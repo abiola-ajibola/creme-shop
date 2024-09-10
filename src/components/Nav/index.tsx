@@ -12,11 +12,11 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import { StyledNav } from "./StyledNav";
 import Image from "next/image";
-import Link from "../Link";
 import { Badge } from "@mui/material";
 import { useSelector } from "react-redux";
+import Link from "../Link";
+import { StyledNav } from "./StyledNav";
 import { selectAllCartItems } from "@/redux/reducers";
 import { RootState } from "@/redux/store";
 

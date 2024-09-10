@@ -5,6 +5,7 @@ import Head from "next/head";
 import { useDispatch, useSelector } from "react-redux";
 import { GetServerSideProps } from "next";
 import axios from "axios";
+import { ProductPageStyle } from "./ProductPageStyles";
 import { ProductType } from "@/types/product";
 import {
   addToCart,
@@ -14,7 +15,6 @@ import {
 } from "@/redux/reducers";
 import { RootState } from "@/redux/store";
 import { QuantityPicker } from "@/components/QuantityPicker";
-import { ProductPageStyle } from "./ProductPageStyles";
 
 type API_Error = {
   status: number;

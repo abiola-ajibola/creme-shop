@@ -1,3 +1,4 @@
+import { IncomingHttpHeaders, IncomingMessage } from "http";
 import { ChangeEvent, useState } from "react";
 import {
   Box,
@@ -12,12 +13,12 @@ import {
   FieldValues,
   useForm,
 } from "react-hook-form";
-import { IncomingHttpHeaders, IncomingMessage } from "http";
 import {
   MuiTelInput,
   MuiTelInputCountry,
 } from "mui-tel-input";
 import Head from "next/head";
+import { SignupWrapper, StyledPaper } from "./SignupStyles";
 import {
   getAllCountries,
   getCountryStates,
@@ -27,7 +28,6 @@ import {
   TState,
 } from "@/api/locations";
 import { ControlledTextField } from "@/components/ControlledTextField";
-import { SignupWrapper, StyledPaper } from "./SignupStyles";
 
 type TServerProps = {
   location: Partial<TIPLocation>;
