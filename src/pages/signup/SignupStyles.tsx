@@ -30,14 +30,14 @@ declare module "@mui/material" {
   }
 }
 export const StyledPaper = styled(
-  Paper as OverridableComponent<PaperTypeMap<{}, "div">>
+  Paper as OverridableComponent<PaperTypeMap<{}, "div">>,
 )(
   ({ theme }) => `
 border-radius = ${theme.shape.borderRadius};
 max-width: ${theme._.sizes.md};
 width: 100%;
 padding: ${theme._.padding.normal};
-`
+`,
 );
 
 export const Div = () => {

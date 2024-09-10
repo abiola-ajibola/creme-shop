@@ -16,7 +16,7 @@ function SummaryItem({ name, value }: SummaryItem) {
 
 export function OrderSummary() {
   const totalPrice = useSelector((state: RootState) =>
-    selectAllCartItems(state)
+    selectAllCartItems(state),
   ).reduce((acc, curr) => {
     return acc + curr.price * curr.qty;
   }, 0);

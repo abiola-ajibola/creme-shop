@@ -32,7 +32,7 @@ export default function Product({
   const [canUpdateCart, setCanUpdateCart] = useState(false);
   const productId = product._id;
   const addedProduct = useSelector((state: RootState) =>
-    selectAddedProducts(state, productId)
+    selectAddedProducts(state, productId),
   );
 
   const qty = addedProduct?.qty;
@@ -152,7 +152,9 @@ export default function Product({
                 }
                 onIncrement={() => handleQtyChange(1)}
                 inputValue={localQty}
-                onInputChange={(e: ChangeEvent<HTMLInputElement>) => setLocalQty(Number(e.target.value) || 0)}
+                onInputChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  setLocalQty(Number(e.target.value) || 0)
+                }
               />
             </Box>
             <Box
@@ -200,7 +202,7 @@ export default function Product({
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   try {
     const { data } = await axios.get(
-      `${process.env.NEXT_PUBLIC_EXTERNAL_API_URL}/products/${query.productId}`
+      `${process.env.NEXT_PUBLIC_EXTERNAL_API_URL}/products/${query.productId}`,
     );
     return {
       props: {

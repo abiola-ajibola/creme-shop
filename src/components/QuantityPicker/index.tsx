@@ -30,7 +30,10 @@ export function QuantityPicker({
       </Button>{" "}
       <Input
         onChange={onInputChange}
-        inputProps={{ className: "qty_input", style: { width: "4ch", textAlign: 'center' } }}
+        inputProps={{
+          className: "qty_input",
+          style: { width: "4ch", textAlign: "center" },
+        }}
         value={inputValue}
         disabled={inputDisabled}
       />{" "}

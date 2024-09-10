@@ -8,15 +8,8 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import {
-  Controller,
-  FieldValues,
-  useForm,
-} from "react-hook-form";
-import {
-  MuiTelInput,
-  MuiTelInputCountry,
-} from "mui-tel-input";
+import { Controller, FieldValues, useForm } from "react-hook-form";
+import { MuiTelInput, MuiTelInputCountry } from "mui-tel-input";
 import Head from "next/head";
 import { SignupWrapper, StyledPaper } from "./SignupStyles";
 import {
@@ -282,7 +275,7 @@ export async function getServerSideProps({ req }: { req: IncomingMessage }) {
 
   try {
     const data = await getCountryStates(
-      serverProps.location.countryCode as string
+      serverProps.location.countryCode as string,
     );
     if (!data) throw "States data is undefined";
     serverProps.states = data;

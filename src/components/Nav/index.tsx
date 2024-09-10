@@ -34,7 +34,7 @@ export function Nav() {
   const cartItemsCount = useSelector((state: RootState) =>
     selectAllCartItems(state).reduce((acc, curr) => {
       return acc + curr.qty;
-    }, 0)
+    }, 0),
   );
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {

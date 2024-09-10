@@ -8,7 +8,7 @@ import { ShoppingCartItem } from "@/components/ShoppingCartItem";
 
 export default function Cart() {
   const allCartItems = useSelector((state: RootState) =>
-    selectAllCartItems(state)
+    selectAllCartItems(state),
   );
 
   return (

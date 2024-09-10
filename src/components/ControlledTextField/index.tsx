@@ -6,11 +6,10 @@ import {
   // FieldError,
 } from "react-hook-form";
 
-interface Props extends UseControllerProps<FieldValues> {
-}
+interface Props extends UseControllerProps<FieldValues> {}
 
 export function ControlledTextField<FieldValues>(
-  props: Props & TextFieldProps & FieldValues
+  props: Props & TextFieldProps & FieldValues,
 ) {
   return (
     <Controller

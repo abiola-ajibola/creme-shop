@@ -46,9 +46,7 @@ export default function Home(/* { products }: { products: ProductType[] } */) {
           </Box>
           <Box>
             <Typography justifyContent={"center"} variant="body2">
-              <Link href="/signup">
-                Don&apos;t have an account? Sign-up
-              </Link>
+              <Link href="/signup">Don&apos;t have an account? Sign-up</Link>
             </Typography>
           </Box>
         </StyledPaper>
@@ -59,7 +57,7 @@ export default function Home(/* { products }: { products: ProductType[] } */) {
 
 export async function getStaticProps() {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_EXTERNAL_API_URL}/products`
+    `${process.env.NEXT_PUBLIC_EXTERNAL_API_URL}/products`,
   );
   const products = await res.json();
   return {

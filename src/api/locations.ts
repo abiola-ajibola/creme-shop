@@ -47,16 +47,17 @@ export type TState = {
 };
 
 export type TCity = {
-    name: string;
-    countryCode: string;
-    stateCode: string;
-    latitude?: string | null;
-    longitude?: string | null;}
+  name: string;
+  countryCode: string;
+  stateCode: string;
+  latitude?: string | null;
+  longitude?: string | null;
+};
 
 export async function getAllCountries() {
   try {
     const data: AxiosResponse<TCountry[]> = await axios.get(
-      "/location/countries"
+      "/location/countries",
     );
     return data.data;
   } catch (error) {
@@ -67,7 +68,7 @@ export async function getAllCountries() {
 export async function getCountryStates(countryCode: string) {
   try {
     const data: AxiosResponse<TState[]> = await axios.get(
-      "/location/" + countryCode
+      "/location/" + countryCode,
     );
     return data.data;
   } catch (error) {
@@ -78,7 +79,7 @@ export async function getCountryStates(countryCode: string) {
 export async function getStateCities(countryCode: string, stateCode: string) {
   try {
     const data: AxiosResponse<TCity[]> = await axios.get(
-      `/location/${countryCode}/${stateCode}`
+      `/location/${countryCode}/${stateCode}`,
     );
     return data.data;
   } catch (error) {

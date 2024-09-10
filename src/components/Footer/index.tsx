@@ -1,5 +1,5 @@
 import { StyledFooter } from "./StyledFooter";
 
-export function Footer () {
-    return <StyledFooter></StyledFooter>
+export function Footer() {
+  return <StyledFooter></StyledFooter>;
 }

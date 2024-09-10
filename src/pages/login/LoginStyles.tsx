@@ -13,11 +13,10 @@ export const LoginStyles = styled("main")`
   }
 `;
 
-export const StyledPaper: OverridableComponent<
-  PaperTypeMap<{}, "div">
-> = styled(Paper)`
-  padding: ${({ theme }) => theme.spacing(4)};
-  border-radius: ${({ theme }) => theme.spacing(1)};
-  max-width: 600px;
-  min-width: 420px;
-`;
+export const StyledPaper: OverridableComponent<PaperTypeMap<{}, "div">> =
+  styled(Paper)`
+    padding: ${({ theme }) => theme.spacing(4)};
+    border-radius: ${({ theme }) => theme.spacing(1)};
+    max-width: 600px;
+    min-width: 420px;
+  `;

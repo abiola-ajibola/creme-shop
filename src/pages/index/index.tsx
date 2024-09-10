@@ -32,7 +32,7 @@ export default function Home({ products }: { products: ProductType[] }) {
 
 export async function getStaticProps() {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_EXTERNAL_API_URL}/products`
+    `${process.env.NEXT_PUBLIC_EXTERNAL_API_URL}/products`,
   );
   const products = await res.json();
   return {
