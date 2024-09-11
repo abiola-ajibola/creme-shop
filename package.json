@@ -7,7 +7,13 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "format": "prettier --write **/*.{css,ts,tsx,json}"
+    "format:plain": "prettier --write",
+    "format": "prettier --write **/*.{css,ts,tsx,json}",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js}": "eslint --fix",
+    "*.{ts,tsx,js,json}": "yarn format:plain"
   },
   "dependencies": {
     "@emotion/react": "^11.10.6",
@@ -38,6 +44,8 @@
   },
   "devDependencies": {
     "eslint-plugin-import": "^2.30.0",
+    "husky": "^9.1.5",
+    "lint-staged": "^15.2.10",
     "prettier": "^3.3.3"
   }
 }
