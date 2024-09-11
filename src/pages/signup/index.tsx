@@ -9,8 +9,8 @@ import {
   Typography,
 } from "@mui/material";
 import { Controller, FieldValues, useForm } from "react-hook-form";
-import { MuiTelInput, MuiTelInputCountry } from "mui-tel-input";
 import Head from "next/head";
+import { MuiTelInput, MuiTelInputCountry } from "mui-tel-input";
 import { SignupWrapper, StyledPaper } from "./SignupStyles";
 import {
   getAllCountries,
