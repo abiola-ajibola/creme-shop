@@ -5,8 +5,8 @@ import CardContent from "@mui/material/CardContent";
 // import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Image from "next/image";
-import StyledLink from "./StyledLink";
 import { Box, Rating } from "@mui/material";
+import StyledLink from "./StyledLink";
 
 export type ProductProps = {
   _id: string;

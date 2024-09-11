@@ -4,5 +4,4 @@ const ProductsListStyles = styled.div`
   max-width: 640px;
 `;
 
-export default ProductsListStyles
-
+export default ProductsListStyles;

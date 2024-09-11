@@ -1,9 +1,11 @@
-import { ShoppingCart } from "@/types/shoppingCart";
 import { createSlice } from "@reduxjs/toolkit";
+import { RootState } from "../store";
+import { ShoppingCart } from "@/types/shoppingCart";
 // import type { PayloadAction } from "@reduxjs/toolkit";
 
 const initialState: ShoppingCart = {
   userId: "",
+  shipping: 100, // Should be dynamic
   orderItems: [],
 };
 
@@ -16,36 +18,32 @@ export const shoppingCartSlice = createSlice({
     },
     removeFromCart: (state, action) => {
       state.orderItems = state.orderItems.filter(
-        ({ productId }) => productId !== action.payload
+        ({ _id: productId }) => productId !== action.payload
       );
     },
-    increaseQty: (state, action) => {
-      state.orderItems = state.orderItems.map(({ productId, qty }) => {
-        if (productId === action.payload.productId) {
-          return { productId, qty: qty + 1 };
-        }
-        return { productId, qty };
-      });
-    },
-    decreaseQty: (state, action) => {
-      state.orderItems = state.orderItems.map(({ productId, qty }) => {
-        if (productId === action.payload.productId) {
-          return { productId, qty: qty - 1 };
-        }
-        return { productId, qty };
-      });
-    },
     setQty: (state, action) => {
-      state.orderItems = state.orderItems.map(({ productId, qty }) => {
-        if (productId === action.payload.productId) {
-          return { productId, qty: action.payload.qty };
+      state.orderItems = state.orderItems.map((product) => {
+        const { _id, qty } = product;
+        if (_id === action.payload.productId) {
+          return { ...product, qty: action.payload.qty };
         }
-        return { productId, qty };
+        return { ...product, qty };
       });
     },
   },
 });
 
 export const shoppingCartReducer = shoppingCartSlice.reducer;
-export const { addToCart, decreaseQty, increaseQty, setQty, removeFromCart } =
-  shoppingCartSlice.actions;
+
+export const selectAllCartItems = (state: RootState) =>
+  state.shoppingCartReducer.orderItems;
+
+export const selectAddedProducts = (state: RootState, productId: string) =>
+  state.shoppingCartReducer.orderItems.find(
+    ({ _id: pid }) => pid === productId
+  );
+
+export const selectShipping = (state: RootState) =>
+  state.shoppingCartReducer.shipping;
+
+export const { addToCart, setQty, removeFromCart } = shoppingCartSlice.actions;
