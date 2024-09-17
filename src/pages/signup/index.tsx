@@ -1,5 +1,5 @@
 import { IncomingHttpHeaders, IncomingMessage } from "http";
-import { ChangeEvent, useState } from "react";
+import { useState } from "react";
 import {
   Box,
   Button,
@@ -8,9 +8,13 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { Controller, FieldValues, useForm } from "react-hook-form";
+import { Control, Controller, FieldValues, useForm } from "react-hook-form";
 import Head from "next/head";
 import { MuiTelInput, MuiTelInputCountry } from "mui-tel-input";
+import { object, ObjectSchema, ref, string } from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { isValidPhoneNumber } from "libphonenumber-js";
+import { useDispatch } from "react-redux";
 import { SignupWrapper, StyledPaper } from "./SignupStyles";
 import {
   getAllCountries,
@@ -21,6 +25,10 @@ import {
   TState,
 } from "@/api/locations";
 import { ControlledTextField } from "@/components/ControlledTextField";
+import { PasswordField } from "@/components/PasswordField";
+import { User } from "@/types/user";
+import { signUp } from "@/api/auth";
+import { setUser } from "@/redux/reducers";
 
 type TServerProps = {
   location: Partial<TIPLocation>;
@@ -29,50 +37,86 @@ type TServerProps = {
 };
 
 export type TFieldValues = {
-  firstname: string;
-  lastname: string;
-  email: string;
   password: string;
   confirm_password: string;
-  street: string;
-  country: string;
-  state: string;
-  city: string;
-  phone: string;
-  zip_code: string;
-};
+} & Omit<User, "_id">;
+
+const schema: ObjectSchema<TFieldValues> = object({
+  firstname: string()
+    .max(20, "First name cannot be more than 20 charaaters")
+    .min(2, "First name cannot be less than 2 characters")
+    .required(),
+  lastname: string()
+    .max(20, "Last name cannot be more than 20 charaaters")
+    .min(2, "Last name cannot be less than 2 characters")
+    .required(),
+  email: string().email("Must be a valid email").required("Email is required"),
+  password: string().required(),
+  confirm_password: string()
+    .required()
+    .oneOf([ref("password")], "Passwords must match"),
+  address: object({
+    street: string().required("Street is required"),
+    country: string().required("Country is required"),
+    state: string().required("State is required"),
+    city: string().required("City is required"),
+  }),
+  phone: string()
+    .test({
+      message: "Invalid phone number",
+      exclusive: true,
+      name: "isValidPhoneNumber",
+      test: (value) => (value ? isValidPhoneNumber(value) : false),
+    })
+    .required("Phone is required"),
+  zip_code: string().required("Zip/post code is required"),
+});
 
 export default function Signup(props: TServerProps) {
   const [countryStates, setCountryStates] = useState<TState[]>(props.states);
+  const dispatch = useDispatch();
 
   const {
     register,
     handleSubmit,
     control,
-    // formState: { errors },
+    formState: { errors },
     setValue,
-  } = useForm<FieldValues>({
+  } = useForm({
     defaultValues: {
-      city: "",
+      address: {
+        city: "",
+        country: props.location.countryCode,
+        state: "",
+        street: "",
+      },
       confirm_password: "",
-      country: props.location.countryCode,
-      state: "",
     } as TFieldValues,
+    resolver: yupResolver(schema),
   });
 
-  const handleCountryChange = async (e: ChangeEvent<HTMLInputElement>) => {
-    setValue("state", "");
-    try {
-      const data = await getCountryStates(e.target.value);
-      if (!data) throw "States data undefined";
-      setCountryStates(data);
-    } catch (e) {
-      console.log({ e });
+  const handleCountrySelect = async (country: Partial<TCountry>) => {
+    if (country.isoCode) {
+      try {
+        const data = await getCountryStates(country.isoCode);
+        if (!data) throw "States data undefined";
+        setCountryStates(data);
+      } catch (e) {
+        console.log({ e });
+      }
     }
   };
 
-  const onSubmit = (values: FieldValues) => {
-    console.log({ values });
+  const handleCountryChange = async () => {
+    setValue("address.state", "");
+  };
+
+  const onSubmit = async (values: TFieldValues) => {
+    const data = await signUp(values);
+    console.log(data);
+    if (data) {
+      dispatch(setUser(data));
+    }
   };
 
   return (
@@ -93,6 +137,8 @@ export default function Signup(props: TServerProps) {
                 placeholder="First name"
                 label="First name"
                 {...register("firstname")}
+                error={!!errors.firstname}
+                helperText={errors.firstname?.message}
               />
             </Grid>
             <Grid className="gridItem" item>
@@ -101,6 +147,8 @@ export default function Signup(props: TServerProps) {
                 placeholder="Last name"
                 {...register("lastname")}
                 label="Last name"
+                error={!!errors.lastname}
+                helperText={errors.lastname?.message}
               />
             </Grid>
             <Grid className="gridItem" item>
@@ -109,15 +157,19 @@ export default function Signup(props: TServerProps) {
                 placeholder="Email"
                 {...register("email")}
                 label="Email"
+                error={!!errors.email}
+                helperText={errors.email?.message}
               />
             </Grid>
             <Grid className="gridItem" item>
-              <TextField
+              <PasswordField
                 fullWidth
                 placeholder="Password"
-                type="password"
-                {...register("password")}
+                // {...register("password")}
+                register={register}
                 label="Password"
+                error={!!errors.password}
+                helperText={errors.password?.message}
               />
             </Grid>
             <Grid className="gridItem" item></Grid>
@@ -128,6 +180,8 @@ export default function Signup(props: TServerProps) {
                 type="password"
                 {...register("confirm_password")}
                 label="Confirm Password"
+                error={!!errors.confirm_password}
+                helperText={errors.confirm_password?.message}
               />
             </Grid>
             <Grid className="gridItem" item></Grid>
@@ -142,22 +196,32 @@ export default function Signup(props: TServerProps) {
                 fullWidth
                 placeholder="Street"
                 label="Street"
-                {...register("street")}
+                {...register("address.street")}
+                error={!!errors.address?.street}
+                helperText={errors.address?.street?.message}
               />
             </Box>
             <Grid container spacing={2}>
               <Grid className="gridItem" item>
                 <ControlledTextField
-                  control={control}
+                  control={
+                    control as Control<FieldValues> & Control<TFieldValues>
+                  }
                   select
                   onChange={handleCountryChange}
                   label="country"
                   fullWidth
                   defaultValue={props.location.countryCode}
-                  name="country"
+                  name="address.country"
+                  error={!!errors.address?.country}
+                  helperText={errors.address?.country?.message}
                 >
                   {props.countries.map((country) => (
-                    <MenuItem key={country.isoCode} value={country.isoCode}>
+                    <MenuItem
+                      key={country.isoCode}
+                      value={country.name}
+                      onClick={() => handleCountrySelect(country)}
+                    >
                       {country.name}
                     </MenuItem>
                   ))}
@@ -165,15 +229,19 @@ export default function Signup(props: TServerProps) {
               </Grid>
               <Grid className="gridItem" item>
                 <ControlledTextField
-                  control={control}
-                  name="state"
+                  control={
+                    control as Control<FieldValues> & Control<TFieldValues>
+                  }
+                  name="address.state"
                   select
                   fullWidth
                   label="State"
                   placeholder="State"
+                  error={!!errors.address?.state}
+                  helperText={errors.address?.state?.message}
                 >
                   {countryStates.map((state) => (
-                    <MenuItem key={state.name} value={state.isoCode}>
+                    <MenuItem key={state.name} value={state.name}>
                       {state.name}
                     </MenuItem>
                   ))}
@@ -184,7 +252,9 @@ export default function Signup(props: TServerProps) {
                   fullWidth
                   label="City"
                   placeholder="City"
-                  {...register("city")}
+                  {...register("address.city")}
+                  error={!!errors.address?.city}
+                  helperText={errors.address?.city?.message}
                 />
               </Grid>
               <Grid className="gridItem" item>
@@ -193,6 +263,8 @@ export default function Signup(props: TServerProps) {
                   label="Post Code/Zip Code"
                   placeholder="Post Code/Zip Code"
                   {...register("zip_code")}
+                  error={!!errors.zip_code}
+                  helperText={errors.zip_code?.message}
                 />
               </Grid>
               <Grid className="gridItem" item>
@@ -205,6 +277,8 @@ export default function Signup(props: TServerProps) {
                       defaultCountry={props.location.countryCode}
                       label="Phone"
                       {...field}
+                      error={!!errors.phone}
+                      helperText={errors.phone?.message}
                     />
                   )}
                 />

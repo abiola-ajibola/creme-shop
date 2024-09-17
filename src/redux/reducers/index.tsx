@@ -7,3 +7,11 @@ export {
   selectAllCartItems,
   selectAddedProducts,
 } from "./shoppingCartSlice";
+
+export {
+  setUser,
+  updateAddress,
+  userSlice,
+  selectUser,
+  userSliceReducer,
+} from "./userSlice";
