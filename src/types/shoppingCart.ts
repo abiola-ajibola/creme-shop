@@ -3,7 +3,7 @@ import { ProductType } from "./product";
 export type OrderItem = ProductType & { qty: number };
 export type ShoppingCart = {
   userId: string;
-  shipping: number;
+  // shipping: number;
   orderItems: OrderItem[];
 };
 

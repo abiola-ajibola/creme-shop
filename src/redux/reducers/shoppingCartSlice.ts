@@ -5,7 +5,7 @@ import { ShoppingCart } from "@/types/shoppingCart";
 
 const initialState: ShoppingCart = {
   userId: "",
-  shipping: 100, // Should be dynamic
+  // shipping: 100, // Should be dynamic
   orderItems: [],
 };
 
@@ -18,7 +18,7 @@ export const shoppingCartSlice = createSlice({
     },
     removeFromCart: (state, action) => {
       state.orderItems = state.orderItems.filter(
-        ({ _id: productId }) => productId !== action.payload
+        ({ _id: productId }) => productId !== action.payload,
       );
     },
     setQty: (state, action) => {
@@ -40,10 +40,10 @@ export const selectAllCartItems = (state: RootState) =>
 
 export const selectAddedProducts = (state: RootState, productId: string) =>
   state.shoppingCartReducer.orderItems.find(
-    ({ _id: pid }) => pid === productId
+    ({ _id: pid }) => pid === productId,
   );
 
-export const selectShipping = (state: RootState) =>
-  state.shoppingCartReducer.shipping;
+// export const selectShipping = (state: RootState) =>
+//   state.shoppingCartReducer.shipping;
 
 export const { addToCart, setQty, removeFromCart } = shoppingCartSlice.actions;
