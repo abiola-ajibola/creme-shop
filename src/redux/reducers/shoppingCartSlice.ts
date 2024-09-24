@@ -36,12 +36,10 @@ export const shoppingCartSlice = createSlice({
 export const shoppingCartReducer = shoppingCartSlice.reducer;
 
 export const selectAllCartItems = (state: RootState) =>
-  state.shoppingCartReducer.orderItems;
+  state.shoppingCartSlice.orderItems;
 
 export const selectAddedProducts = (state: RootState, productId: string) =>
-  state.shoppingCartReducer.orderItems.find(
-    ({ _id: pid }) => pid === productId,
-  );
+  state.shoppingCartSlice.orderItems.find(({ _id: pid }) => pid === productId);
 
 // export const selectShipping = (state: RootState) =>
 //   state.shoppingCartReducer.shipping;
