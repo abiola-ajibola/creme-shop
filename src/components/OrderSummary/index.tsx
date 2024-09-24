@@ -1,12 +1,14 @@
 import { Box, Button, Grid, Typography } from "@mui/material";
 import { useSelector } from "react-redux";
 import { Save, Share } from "@mui/icons-material";
+import { useRouter } from "next/router";
 import Link from "../Link";
-import { selectAllCartItems } from "@/redux/reducers";
+import { selectUser } from "@/redux/reducers";
 // import { selectShipping } from "@/redux/reducers/shoppingCartSlice";
 import { RootState } from "@/redux/store";
-import type { SummaryItem } from "@/types/shoppingCart";
+import type { OrderItem, SummaryItem } from "@/types/shoppingCart";
 import { saveCart } from "@/api/cart";
+import { warningNotification } from "@/utils/notifications";
 
 function SummaryItem({ name, value }: SummaryItem) {
   return (
@@ -16,8 +18,10 @@ function SummaryItem({ name, value }: SummaryItem) {
   );
 }
 
-export function OrderSummary() {
-  const cart = useSelector((state: RootState) => selectAllCartItems(state));
+export function OrderSummary({ cart }: { cart: OrderItem[] }) {
+  // const cart = useSelector((state: RootState) => selectAllCartItems(state));
+  const user = useSelector((state: RootState) => selectUser(state));
+  const router = useRouter();
   const totalPrice = cart
     .reduce((acc, curr) => {
       return acc + curr.price * curr.qty;
@@ -27,9 +31,16 @@ export function OrderSummary() {
   // const shipping = useSelector((state: RootState) =>
   //   selectShipping(state)
   // ).toFixed(2);
-  const handleSaveCart = async () => {
-    const data = await saveCart({ orderItems: cart, userId: "" });
-    console.log({ data });
+
+  const handleSaveCart = () => {
+    if (!user?._id) {
+      warningNotification("Please login to continue");
+      return router.push("/login?redirect=/cart");
+    }
+    saveCart({
+      orderItems: cart.map((item) => ({ product: item._id, qty: item.qty })),
+      userId: user._id,
+    });
   };
   return (
     <Box sx={{ maxWidth: "300px" }}>
