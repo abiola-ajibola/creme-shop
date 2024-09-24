@@ -30,7 +30,7 @@ export default function Home({ products }: { products: ProductType[] }) {
   );
 }
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_EXTERNAL_API_URL}/products`,
   );
