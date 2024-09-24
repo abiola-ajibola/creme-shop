@@ -5,7 +5,8 @@ import { TFieldValues } from "@/pages/signup";
 
 export async function signIn(creds: { email: string; password: string }) {
   try {
-    const repsonse: AxiosResponse<User> = await axios.post("auth/sign", creds);
+    const repsonse: AxiosResponse<{ status: string; user: User }> =
+      await axios.post("auth/signin", creds);
     return repsonse.data;
   } catch (error) {
     console.log({ error });
@@ -14,11 +15,13 @@ export async function signIn(creds: { email: string; password: string }) {
 
 export async function signUp(userData: TFieldValues) {
   try {
-    const repsonse: AxiosResponse<User> = await axios.post(
-      "/auth/signup",
-      userData,
-    );
-    return repsonse.data;
+    const response: AxiosResponse<{
+      status: string;
+      user: User;
+      token: string;
+    }> = await axios.post("/auth/signup", userData);
+    // localStorage.setItem("token", response.data.token);
+    return response.data;
   } catch (error) {
     console.log({ error });
   }

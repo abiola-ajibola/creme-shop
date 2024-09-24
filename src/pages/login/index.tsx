@@ -1,11 +1,37 @@
 import Head from "next/head";
-// import { ProductType } from "@/types/product";
 import Link from "next/link";
 import { Box, Button, TextField, Typography } from "@mui/material";
+import { object, string } from "yup";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useDispatch } from "react-redux";
 import { StyledPaper } from "./LoginStyles";
+import { signIn } from "@/api/auth";
 import { LoginStyles } from "@/styles/LoginStyle";
+import { setUser } from "@/redux/reducers";
+type TSignin = {
+  email: string;
+  password: string;
+};
+const loginSchema = object({
+  email: string().email().required("Email is required"),
+  password: string().required("Please, enter a password"),
+});
 
-export default function Home(/* { products }: { products: ProductType[] } */) {
+export default function Signin() {
+  const {
+    handleSubmit,
+    formState: { errors },
+    register,
+  } = useForm({ resolver: yupResolver(loginSchema) });
+  const dispatch = useDispatch();
+  const onSubmit = async (values: TSignin) => {
+    const data = await signIn(values);
+    if (data) {
+      dispatch(setUser(data.user));
+    }
+    console.log({ data });
+  };
   return (
     <>
       <Head>
@@ -13,29 +39,33 @@ export default function Home(/* { products }: { products: ProductType[] } */) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <LoginStyles>
-        <StyledPaper component={"form"}>
+        <StyledPaper onSubmit={handleSubmit(onSubmit)} component={"form"}>
           <Box my={4}>
             <TextField
-              name="email"
               type="email"
               id="email"
               label=""
               placeholder="Email"
+              {...register("email")}
               fullWidth
+              error={!!errors.email}
+              helperText={errors.email?.message}
             />
           </Box>
           <Box my={4}>
             <TextField
-              name="password"
               type="password"
               id="password"
               label=""
               placeholder="Password"
+              {...register("password")}
               fullWidth
+              error={!!errors.password}
+              helperText={errors.password?.message}
             />
           </Box>
           <Box my={4}>
-            <Button className="submit_button" type="button" variant="contained">
+            <Button className="submit_button" type="submit" variant="contained">
               Login
             </Button>
           </Box>

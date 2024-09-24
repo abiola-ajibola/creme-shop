@@ -15,6 +15,7 @@ import { object, ObjectSchema, ref, string } from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { isValidPhoneNumber } from "libphonenumber-js";
 import { useDispatch } from "react-redux";
+import { useRouter } from "next/router";
 import { SignupWrapper, StyledPaper } from "./SignupStyles";
 import {
   getAllCountries,
@@ -57,7 +58,8 @@ const schema: ObjectSchema<TFieldValues> = object({
     .oneOf([ref("password")], "Passwords must match"),
   address: object({
     street: string().required("Street is required"),
-    country: string().required("Country is required"),
+    country_code: string().required("Country is required"),
+    country: string(),
     state: string().required("State is required"),
     city: string().required("City is required"),
   }),
@@ -75,6 +77,7 @@ const schema: ObjectSchema<TFieldValues> = object({
 export default function Signup(props: TServerProps) {
   const [countryStates, setCountryStates] = useState<TState[]>(props.states);
   const dispatch = useDispatch();
+  const router = useRouter();
 
   const {
     register,
@@ -86,7 +89,8 @@ export default function Signup(props: TServerProps) {
     defaultValues: {
       address: {
         city: "",
-        country: props.location.countryCode,
+        country_code: props.location.countryCode,
+        country: props.location.country,
         state: "",
         street: "",
       },
@@ -96,6 +100,7 @@ export default function Signup(props: TServerProps) {
   });
 
   const handleCountrySelect = async (country: Partial<TCountry>) => {
+    setValue("address.country", country.name);
     if (country.isoCode) {
       try {
         const data = await getCountryStates(country.isoCode);
@@ -115,7 +120,8 @@ export default function Signup(props: TServerProps) {
     const data = await signUp(values);
     console.log(data);
     if (data) {
-      dispatch(setUser(data));
+      dispatch(setUser(data.user));
+      router.push("/products");
     }
   };
 
@@ -212,14 +218,14 @@ export default function Signup(props: TServerProps) {
                   label="country"
                   fullWidth
                   defaultValue={props.location.countryCode}
-                  name="address.country"
+                  name="address.country_code"
                   error={!!errors.address?.country}
                   helperText={errors.address?.country?.message}
                 >
                   {props.countries.map((country) => (
                     <MenuItem
                       key={country.isoCode}
-                      value={country.name}
+                      value={country.isoCode}
                       onClick={() => handleCountrySelect(country)}
                     >
                       {country.name}
@@ -325,9 +331,6 @@ export async function getServerSideProps({ req }: { req: IncomingMessage }) {
       ?.trim() ?? cleanIp(req.socket?.remoteAddress);
 
   try {
-    if (!ip) {
-      throw "No IP address";
-    }
     const data = await getIpLcation(ip);
     if (!data) throw "IP location data is undefined";
     serverProps.location = data;
