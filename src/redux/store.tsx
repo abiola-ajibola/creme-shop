@@ -10,6 +10,7 @@ import {
   REGISTER,
 } from "redux-persist";
 import sessionStorage from "redux-persist/lib/storage/session";
+import storage from "redux-persist/lib/storage";
 import { shoppingCartReducer, userSliceReducer } from "./reducers";
 
 const persistConfig = {
@@ -17,15 +18,25 @@ const persistConfig = {
   storage: sessionStorage,
 };
 
+const persistConfigLocalStorage = {
+  key: "user",
+  storage: storage,
+};
+
 const persistedShoppingCartReducer = persistReducer(
   persistConfig,
   shoppingCartReducer,
 );
 
+const persistedUserReducer = persistReducer(
+  persistConfigLocalStorage,
+  userSliceReducer,
+);
+
 export const store = configureStore({
   reducer: {
-    shoppingCartReducer: persistedShoppingCartReducer,
-    userSliceReducer,
+    shoppingCartSlice: persistedShoppingCartReducer,
+    userSlice: persistedUserReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

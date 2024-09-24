@@ -10,6 +10,7 @@ const initialState: User = {
     country: "",
     state: "",
     street: "",
+    country_code: "",
   },
   email: "",
   firstname: "",
@@ -23,7 +24,7 @@ export const userSlice = createSlice({
   name: "user",
   reducers: {
     setUser: (state, action) => {
-      state = action.payload;
+      return action.payload;
     },
     updateAddress: (state, action) => {
       state.address = action.payload;
@@ -33,6 +34,6 @@ export const userSlice = createSlice({
 
 export const userSliceReducer = userSlice.reducer;
 
-export const selectUser = (state: RootState) => state;
+export const selectUser = (state: RootState) => state.userSlice;
 
 export const { setUser, updateAddress } = userSlice.actions;
