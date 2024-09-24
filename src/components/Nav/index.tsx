@@ -21,9 +21,9 @@ import { selectAllCartItems } from "@/redux/reducers";
 import { RootState } from "@/redux/store";
 
 export const pages = [
-  { name: "Products", route: "/#products" },
+  { name: "Products", route: "/products" },
   { name: "Pricing", route: "/#pricing" },
-  { name: "Blog", route: "/#blog" },
+  { name: "Login", route: "/login" },
 ];
 const settings = ["Profile", "Account", "Cart", "Logout"];
 export function Nav() {
