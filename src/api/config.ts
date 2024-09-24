@@ -1,13 +1,15 @@
 import axiosApi from "axios";
-import { enqueueSnackbar } from "notistack";
+import { errorNotification } from "@/utils/notifications";
 
 const axios = axiosApi.create({
   baseURL: process.env.NEXT_PUBLIC_EXTERNAL_API_URL,
+  withCredentials: true,
 });
 
 axios.interceptors.request.use(
   function (config) {
-    config.headers.Authorization = localStorage.getItem("token");
+    config.headers.Authorization =
+      typeof localStorage !== "undefined" ? localStorage.getItem("token") : "";
     return config;
   },
   function (error) {
@@ -26,7 +28,7 @@ axios.interceptors.response.use(
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error
     console.log({ e: error });
-    enqueueSnackbar(error.message, { variant: "error" });
+    errorNotification(error.message);
     return Promise.reject(error);
   },
 );
